@@ -2,7 +2,8 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Notionaryv1" parent="Theme.Material3.DayNight.NoActionBar">
          Customize your light theme here.
-         <item name="colorPrimary">#415A77</item>
+<!--         <item name="colorPrimary">#415A77</item>-->
+         <item name="colorPrimary">@color/primary</item>
     </style>
 
     <style name="Theme.Notionaryv1" parent="Base.Theme.Notionaryv1" />

@@ -6,12 +6,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -42,6 +44,7 @@ public class AddNoteActivity extends AppCompatActivity {
         }
 
         deleteBtn = findViewById(R.id.action_delete);
+        deleteBtn.setVisibility(View.INVISIBLE);
 
         edtTitle = findViewById(R.id.edt_title);
         edtBody = findViewById(R.id.edt_body);
@@ -54,6 +57,7 @@ public class AddNoteActivity extends AppCompatActivity {
         if (noteId != -1) {
             edtTitle.setText(title);
             edtBody.setText(description);
+            deleteBtn.setVisibility(View.VISIBLE);
             setTitle("Editar Nota");
         }
 
@@ -66,23 +70,31 @@ public class AddNoteActivity extends AppCompatActivity {
 
 
         btnPastel1.setOnClickListener(v -> {
-            changeToolbarColor(R.color.color_pastel_1);
+//            changeToolbarColor(R.color.color_pastel_1);
             selectedColor = ContextCompat.getColor(this, R.color.color_pastel_1);
             Log.d("c", String.valueOf(selectedColor));
         });
         btnPastel2.setOnClickListener(v -> {
-            changeToolbarColor(R.color.color_pastel_2);
+//            changeToolbarColor(R.color.color_pastel_2);
             selectedColor = ContextCompat.getColor(this, R.color.color_pastel_2);
             Log.d("selected", String.valueOf(selectedColor));
         });
         btnPastel3.setOnClickListener(v -> {
-            changeToolbarColor(R.color.color_pastel_3);
+//            changeToolbarColor(R.color.color_pastel_3);
             selectedColor = ContextCompat.getColor(this, R.color.color_pastel_3);
             Log.d("selected", String.valueOf(selectedColor));
         });
 
         deleteBtn.setOnClickListener(v -> {
-            finish();
+            new AlertDialog.Builder(this)
+                    .setTitle("Eliminar notas")
+                    .setMessage("¿Eliminar esta nota?")
+                    .setPositiveButton("Eliminar", (dialog, which) -> {
+                        deleteNote(noteId);
+                        dialog.dismiss();
+                    })
+                    .setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss())
+                    .show();
         });
     }
 
@@ -110,6 +122,13 @@ public class AddNoteActivity extends AppCompatActivity {
             }
             finish();
         }
+    }
+
+    private void deleteNote(long noteId) {
+        if (noteId != -1) {
+            NoteManager.deleteNote(noteId);
+        }
+        finish();
     }
 
     @Override

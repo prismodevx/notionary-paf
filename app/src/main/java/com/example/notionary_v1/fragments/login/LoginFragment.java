@@ -35,8 +35,8 @@ public class LoginFragment extends Fragment {
             requireActivity().finish();
         });
 
-        binding.btnToRegister.setOnClickListener(v -> {
-            NavHostFragment.findNavController(this).navigate(LoginFragmentDirections.actionLoginFragmentToRegisterFragment());
-        });
+//        binding.btnToRegister.setOnClickListener(v -> {
+//            NavHostFragment.findNavController(this).navigate(LoginFragmentDirections.actionLoginFragmentToRegisterFragment());
+//        });
     }
 }
