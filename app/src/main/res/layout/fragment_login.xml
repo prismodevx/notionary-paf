@@ -14,7 +14,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/img_login"/>
+        android:src="@drawable/img_reminder_"/>
 
     <TextView
         android:id="@+id/txt_login"
@@ -24,7 +24,7 @@
         app:layout_constraintTop_toBottomOf="@+id/img_login"
         android:textSize="32sp"
         android:textStyle="bold"
-        android:textColor="#415A77"
+        android:textColor="#2B2A57"
         android:text="Notionary"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"/>
@@ -35,7 +35,7 @@
         app:layout_constraintTop_toBottomOf="@+id/txt_login"
         android:textStyle="bold"
         android:textSize="16sp"
-        android:textColor="#778DA9"
+        android:textColor="#A0A0C7"
         android:text="Inicia sesión para continuar"
         android:layout_marginTop="6dp"
         android:layout_marginStart="20dp"
@@ -43,8 +43,8 @@
     <EditText
         android:id="@+id/edt_username"
         android:layout_width="match_parent"
-        android:textColorHint="#778DA9"
-        android:textColor="#415A77"
+        android:textColorHint="#7A77A9"
+        android:textColor="#2B2A57"
         android:hint="Nombre de usuario o email"
         android:textSize="16sp"
         android:layout_height="wrap_content"
@@ -61,8 +61,8 @@
         android:id="@+id/edt_password"
         android:inputType="textPassword"
         android:layout_width="match_parent"
-        android:textColorHint="#778DA9"
-        android:textColor="#415A77"
+        android:textColorHint="#7A77A9"
+        android:textColor="#2B2A57"
         android:textSize="16sp"
         android:hint="Contraseña"
         android:drawableStart="@drawable/ic_lock"
@@ -82,39 +82,56 @@
         android:textSize="16sp"
         android:layout_width="match_parent"
         android:paddingVertical="12dp"
-        android:backgroundTint="#415A77"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginTop="20dp"
+        app:backgroundTint="@null"
+        android:background="@drawable/button_primary"
+        android:textColor="@color/white"
         app:layout_constraintTop_toBottomOf="@id/edt_password"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/btn_to_register"
+        android:text="Registrarse"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:textSize="16sp"
+        android:layout_width="match_parent"
+        android:paddingVertical="12dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginTop="20dp"
-        android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@+id/btn_login">
+        app:backgroundTint="@null"
+        android:background="@drawable/button_secondary"
+        android:textColor="@color/primary"
+        app:layout_constraintTop_toBottomOf="@id/btn_login"/>
 
-        <TextView
-            android:id="@+id/txt_login_3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/btn_login"
-            android:textSize="16sp"
-            android:textColor="#778DA9"
-            android:text="¿No estás registrado? "/>
-        <TextView
-            android:id="@+id/btn_to_register"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/btn_login"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="#415A77"
-            android:text="Registrate"/>
-    </LinearLayout>
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:layout_marginStart="20dp"-->
+<!--        android:layout_marginEnd="20dp"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:gravity="center"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/btn_login">-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/txt_login_3"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/btn_login"-->
+<!--            android:textSize="16sp"-->
+<!--            android:textColor="#778DA9"-->
+<!--            android:text="¿No estás registrado? "/>-->
+<!--        <TextView-->
+<!--            android:id="@+id/btn_to_register"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/btn_login"-->
+<!--            android:textSize="16sp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textColor="#415A77"-->
+<!--            android:text="Registrate"/>-->
+<!--    </LinearLayout>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

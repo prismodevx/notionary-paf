@@ -2,7 +2,8 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Notionaryv1" parent="Theme.Material3.DayNight.NoActionBar">
          Customize your light theme here.
-         <item name="colorPrimary">#415A77</item>
+<!--         <item name="colorPrimary">#415A77</item>-->
+         <item name="colorPrimary">@color/primary</item>
     </style>
 
     <style name="Theme.Notionaryv1" parent="Base.Theme.Notionaryv1" />
@@ -16,5 +17,12 @@
 <!--        <item name="android:textStyle">bold</item>-->
         <item name="android:textSize">24sp</item>
         <item name="android:gravity">center</item>
+    </style>
+
+    <style name="ToolbarMenuItemStyle">
+        <item name="android:paddingStart">16dp</item> <!-- Padding izquierdo -->
+        <item name="android:paddingEnd">16dp</item> <!-- Padding derecho -->
+        <item name="android:paddingTop">8dp</item> <!-- Padding superior -->
+        <item name="android:paddingBottom">8dp</item> <!-- Padding inferior -->
     </style>
 </resources>

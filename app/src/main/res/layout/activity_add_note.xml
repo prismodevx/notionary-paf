@@ -11,29 +11,38 @@
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="#415A77"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:title="Añadir Nota"
+        app:title=""
         app:titleTextAppearance="@style/CustomToolbarTitle"
-        app:navigationIcon="@drawable/ic_arrow_back">
+        app:navigationIcon="@drawable/baseline_arrow_back_24"
+        app:menu="@menu/toolbar_add_menu">
+        <ImageButton
+            android:backgroundTint="@android:color/transparent"
+            android:id="@+id/action_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="0dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_delete"
+            android:layout_gravity="end"/>
     </androidx.appcompat.widget.Toolbar>
     <EditText
         android:id="@+id/edt_title"
-        android:hint="# Ingresa un titulo"
+        android:hint="Título"
         android:inputType="textMultiLine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginTop="20dp"
-        android:paddingVertical="12dp"
+
+        android:paddingVertical="8dp"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:textColor="#0D1B2A"
+        android:textColor="#0B1215"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
     <View
         android:id="@+id/separator"
@@ -46,7 +55,7 @@
         app:layout_constraintTop_toBottomOf="@+id/edt_title"/>
     <EditText
         android:id="@+id/edt_body"
-        android:hint="¿Cómo te sientes hoy?"
+        android:hint="Empiece a escribir"
         android:inputType="textMultiLine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -54,10 +63,50 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginTop="10dp"
-        android:paddingVertical="12dp"
-        android:textColor="#0D1B2A"
-        android:textSize="18sp"
+        android:paddingVertical="8dp"
+        android:textColor="#0B1215"
+        android:textSize="16sp"
         app:layout_constraintTop_toBottomOf="@+id/separator"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/edt_body"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp">
+
+        <Button
+            android:id="@+id/btn_pastel_1"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:backgroundTint="@color/color_pastel_1"
+            android:text=""
+            android:shape="oval"
+            android:gravity="center" />
+
+        <Button
+            android:id="@+id/btn_pastel_2"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:backgroundTint="@color/color_pastel_2"
+            android:text=""
+            android:shape="oval"
+            android:gravity="center" />
+        <Button
+            android:id="@+id/btn_pastel_3"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:backgroundTint="@color/color_pastel_3"
+            android:text=""
+            android:shape="oval"
+            android:gravity="center" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/btn_save"
