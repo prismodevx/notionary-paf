@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Si el ítem está seleccionado -->
-    <item android:state_checked="true" android:color="#3A7DA2"/> <!-- Color del ítem seleccionado -->
-    <!-- Si el ítem no está seleccionado -->
+    <item android:state_checked="true" android:color="@color/primary"/> <!-- Color del ítem seleccionado -->
     <item android:color="#969899"/>
 </selector>

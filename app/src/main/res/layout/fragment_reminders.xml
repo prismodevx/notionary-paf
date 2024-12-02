@@ -29,5 +29,5 @@
         app:fabCustomSize="60dp"
         app:tint="@color/white"
         app:maxImageSize="36dp"
-        android:backgroundTint="#415A77"/>
+        android:backgroundTint="@color/primary"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

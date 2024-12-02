@@ -10,14 +10,21 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.notionary_v1.MainActivity;
 import com.example.notionary_v1.databinding.FragmentLoginBinding;
+import com.example.notionary_v1.fragments.components.ErrorFragment;
+import com.example.notionary_v1.fragments.components.LoadingFragment;
+import com.example.notionary_v1.fragments.data.ApiClient;
+import com.example.notionary_v1.fragments.data.AuthInterceptor;
+import com.example.notionary_v1.fragments.data.TokenManager;
 import com.example.notionary_v1.interf.MyApi;
 import com.example.notionary_v1.model.AuthRequest;
 import com.example.notionary_v1.model.AuthResponse;
 import com.example.notionary_v1.model.LeerUsuarioResponse;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -41,28 +48,31 @@ public class LoginFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         binding.btnLogin.setOnClickListener(v -> {
-//            Intent intent = new Intent(requireContext(), MainActivity.class);
-//            startActivity(intent);
-//            requireActivity().finish();
-
             final String username = String.valueOf(binding.edtUsername.getText());
             final String password = String.valueOf(binding.edtPassword.getText());
             getAuth(username, password);
         });
 
-//        binding.btnToRegister.setOnClickListener(v -> {
-//            NavHostFragment.findNavController(this).navigate(LoginFragmentDirections.actionLoginFragmentToRegisterFragment());
-//        });
+        binding.btnToRegister.setOnClickListener(v -> {
+            NavHostFragment.findNavController(this).navigate(LoginFragmentDirections.actionLoginFragmentToRegisterFragment());
+        });
     }
 
     private void getAuth(String username, String password) {
-        binding.progressBar.setVisibility(View.VISIBLE);
-        binding.btnLogin.setEnabled(false);
+        LoadingFragment loadingDialog = new LoadingFragment();
+        loadingDialog.show(getParentFragmentManager(), "loading");
 
-        Retrofit retrofit = new Retrofit. Builder()
-                .baseUrl("https://alexismendoza.pythonanywhere.com/")
-                .addConverterFactory(GsonConverterFactory. create())
-                .build();
+//        TokenManager tokenManager = new TokenManager(requireContext());
+//        OkHttpClient client = new OkHttpClient.Builder()
+//                .addInterceptor(new AuthInterceptor(tokenManager))
+//                .build();
+//
+//        Retrofit retrofit = new Retrofit. Builder()
+//                .baseUrl("https://alexismendoza.pythonanywhere.com/")
+//                .addConverterFactory(GsonConverterFactory. create())
+//                .client(client)
+//                .build();
+        Retrofit retrofit = ApiClient.getClient(requireContext());
         MyApi myApi = retrofit.create(MyApi.class);
         AuthRequest authRequest = new AuthRequest();
 
@@ -75,30 +85,41 @@ public class LoginFragment extends Fragment {
         call.enqueue(new Callback<AuthResponse>() {
             @Override
             public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
-                binding.progressBar.setVisibility(View.GONE);
-                binding.btnLogin.setEnabled(true);
-
-                binding.edtUsername.setEnabled(false);
-                binding.edtPassword.setEnabled(false);
+                loadingDialog.dismiss();
 
                 Log.d("req", response.toString());
                 if (!response.isSuccessful()) {
-                    Toast.makeText(getActivity(), "Credenciales Invalidas", Toast.LENGTH_SHORT).show();
-                    binding.edtUsername.setEnabled(true);
-                    binding.edtPassword.setEnabled(true);
+                    showErrorDialog("Credenciales inválidas. Por favor, intente de nuevo.");
+                    binding.edtUsername.setText("");
+                    binding.edtPassword.setText("");
                 }
                 else {
                     AuthResponse authResponse = response.body();
-                    Toast.makeText(getActivity(), authResponse.getAccess_token(), Toast.LENGTH_SHORT).show();
+                    String token = authResponse.getAccess_token();
+                    TokenManager tokenManager = new TokenManager(requireContext());
+                    tokenManager.saveToken(token);
+
+                    Toast.makeText(getActivity(), "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(requireContext(), MainActivity.class);
+                    startActivity(intent);
+                    requireActivity().finish();
+
                 }
 
             }
 
             @Override
             public void onFailure(Call<AuthResponse> call, Throwable t) {
-
+                loadingDialog.dismiss();
+                showErrorDialog("Error de conexión. Verifique su red e intente nuevamente.");
             }
         });
 
+    }
+
+    private void showErrorDialog(String errorMessage) {
+        ErrorFragment errorDialog = new ErrorFragment(errorMessage);
+        errorDialog.show(getParentFragmentManager(), "errorDialog");
     }
 }
