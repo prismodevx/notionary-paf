@@ -6,12 +6,18 @@ public class Note {
     private String description;
     private int color;
 
+    public Note(String title, String description) {
+        this.title = title;
+        this.description = description;
+    }
+
     public Note(String title, String description, int color) {
         this.id = System.currentTimeMillis();
         this.title = title;
         this.description = description;
         this.color = color;
     }
+
 
     public Note(long id, String title, String description, int color) {
         this.id = id;

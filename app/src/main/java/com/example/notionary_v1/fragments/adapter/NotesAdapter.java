@@ -19,10 +19,15 @@ import com.example.notionary_v1.fragments.data.Note;
 import java.util.List;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHolder> {
-    private final List<Note> notes;
+    private List<Note> notes;
 
     public NotesAdapter(List<Note> notes) {
         this.notes = notes;
+    }
+
+    public void updateNotes(List<Note> newNotes) {
+        this.notes = newNotes;
+        notifyDataSetChanged();  // Notifica que los datos han cambiado para actualizar la vista
     }
 
     @NonNull
@@ -36,11 +41,10 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
         Note note = notes.get(position);
 
+        Log.d("Notas", "Note: " + note.getTitle() + " - " + note.getDescription());
+
         holder.title.setText(note.getTitle());
         holder.description.setText(note.getDescription());
-//        holder.color.setText(note.getColor());
-        Log.d("shows", String.valueOf(note.getColor()));
-
         holder.cardView.setCardBackgroundColor(note.getColor());
 
         holder.itemView.setOnClickListener(v -> {
@@ -54,7 +58,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
 
     @Override
     public int getItemCount() {
-        return notes.size();
+        return notes != null ? notes.size() : 0;  // Previene el NPE si las notas son null
     }
 
     static class NoteViewHolder extends RecyclerView.ViewHolder {

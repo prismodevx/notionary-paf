@@ -50,6 +50,10 @@ public class LoginFragment extends Fragment {
         binding.btnLogin.setOnClickListener(v -> {
             final String username = String.valueOf(binding.edtUsername.getText());
             final String password = String.valueOf(binding.edtPassword.getText());
+            if (username.isEmpty() || password.isEmpty()) {
+                showErrorDialog("Por favor, complete ambos campos.");
+                return;
+            }
             getAuth(username, password);
         });
 
@@ -67,20 +71,16 @@ public class LoginFragment extends Fragment {
 //                .addInterceptor(new AuthInterceptor(tokenManager))
 //                .build();
 //
-//        Retrofit retrofit = new Retrofit. Builder()
-//                .baseUrl("https://alexismendoza.pythonanywhere.com/")
-//                .addConverterFactory(GsonConverterFactory. create())
-//                .client(client)
-//                .build();
-        Retrofit retrofit = ApiClient.getClient(requireContext());
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://alexismendoza.pythonanywhere.com/")
+                .addConverterFactory(GsonConverterFactory. create())
+                .build();
         MyApi myApi = retrofit.create(MyApi.class);
         AuthRequest authRequest = new AuthRequest();
 
-        Log.d("req", username);
-        Log.d("req", password);
-
         authRequest.setUsername(username);
         authRequest.setPassword(password);
+
         Call<AuthResponse> call = myApi.autenticar(authRequest);
         call.enqueue(new Callback<AuthResponse>() {
             @Override
@@ -98,6 +98,7 @@ public class LoginFragment extends Fragment {
                     String token = authResponse.getAccess_token();
                     TokenManager tokenManager = new TokenManager(requireContext());
                     tokenManager.saveToken(token);
+                    Log.d("token", token);
 
                     Toast.makeText(getActivity(), "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
 
