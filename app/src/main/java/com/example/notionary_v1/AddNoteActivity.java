@@ -22,6 +22,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.notionary_v1.fragments.components.CustomDialog;
 import com.example.notionary_v1.fragments.data.ApiResponse;
 import com.example.notionary_v1.fragments.data.Note;
 import com.example.notionary_v1.fragments.data.NoteManager;
@@ -37,7 +38,7 @@ public class AddNoteActivity extends AppCompatActivity {
     private EditText edtTitle;
     private EditText edtBody;
     private int selectedColor;
-    private long noteId = -1;
+    private long id = -1;
     private Toolbar toolbar;
     private ImageButton deleteBtn;
 
@@ -54,34 +55,40 @@ public class AddNoteActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-//        deleteBtn = findViewById(R.id.action_delete);
+        deleteBtn = findViewById(R.id.action_delete);
 //        deleteBtn.setVisibility(View.INVISIBLE);
+
+
 
         edtTitle = findViewById(R.id.edt_title);
         edtBody = findViewById(R.id.edt_body);
         tokenManager = new TokenManager(this);
 
-        Log.d("API Error", edtTitle.getText().toString());
-        Log.d("API Error", edtBody.getText().toString());
+        Intent intent = getIntent();
+        id = intent.getLongExtra("note_id", -1);
+        String title = intent.getStringExtra("note_title");
+        String description = intent.getStringExtra("note_description");
 
-//        Intent intent = getIntent();
-//        noteId = intent.getLongExtra("note_id", -1);
-//        String title = intent.getStringExtra("note_title");
-//        String description = intent.getStringExtra("note_description");
+        if (id != -1) {
+            edtTitle.setText(title);
+            edtBody.setText(description);
+            deleteBtn.setVisibility(View.VISIBLE);
+            setTitle("Editar Nota");
+        }
 
-//        if (noteId != -1) {
-//            edtTitle.setText(title);
-//            edtBody.setText(description);
-//            deleteBtn.setVisibility(View.VISIBLE);
-//            setTitle("Editar Nota");
-//        }
+        deleteBtn.setOnClickListener(v -> {
+            CustomDialog dialog = new CustomDialog(this)
+                    .setTitle("Eliminar nota")
+                    .setIcon(R.drawable.ic_error) // Asegúrate de tener un ícono de advertencia
+                    .setCancelButton("Cancelar", null) // No hace nada al cancelar
+                    .setOkButton("Eliminar", view -> {
+                        deleteNote(id); // Llama a tu método para eliminar la nota
+                    });
+            dialog.show();
+        });
 
         Button btnSave = findViewById(R.id.btn_save);
         btnSave.setOnClickListener(v -> {
-            Log.d("API Error", String.valueOf(edtTitle.getText()));
-            Log.d("API Error", String.valueOf(edtBody.getText()));
-            String t = String.valueOf(edtTitle.getText());
-            String d = String.valueOf(edtBody.getText());
             saveNote(String.valueOf(edtTitle.getText()), String.valueOf(edtBody.getText()));
 //
 //            if (!t.isEmpty() && !d.isEmpty()) {
@@ -133,29 +140,101 @@ public class AddNoteActivity extends AppCompatActivity {
 
     private void saveNote(String title, String description) {
         String token = "JWT " + tokenManager.getToken();
-        Log.d("token", tokenManager.getToken());
+        NotesApi apiService = RetrofitInstance.getRetrofitInstance().create(NotesApi.class);
+        Log.d("elid", String.valueOf(id));
+        if (id == -1) {
+            Note newNote = new Note(title, description);
+            Call<ApiResponse> call = apiService.createNote(newNote, token);
+
+            call.enqueue(new Callback<ApiResponse>() {
+                @Override
+                public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                    if (response.isSuccessful()) {
+                        Log.d("API", "Nota guardada exitosamente");
+                        Toast.makeText(AddNoteActivity.this, "Nota guardada exitosamente", Toast.LENGTH_SHORT).show();
+
+                        finish();
+                    } else {
+                        try {
+                            String errorMessage = response.errorBody().string();  // Obtener el mensaje de error
+                            Log.e("API Error", "Error al guardar la nota: " + errorMessage);
+
+                            // Intenta imprimir el cuerpo de la respuesta, aunque sea un error
+                            Log.d("API Response", "Error response: " + response.body());
+
+                            Toast.makeText(AddNoteActivity.this, "Error al guardar la nota: " + errorMessage, Toast.LENGTH_SHORT).show();
+                        } catch (Exception e) {
+                            Log.e("API Error", "Error al obtener el mensaje de error: " + e.getMessage());
+                            Toast.makeText(AddNoteActivity.this, "Error desconocido", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ApiResponse> call, Throwable t) {
+                    Log.e("API Error", "Error de conexión: " + t.getMessage());
+                    Toast.makeText(AddNoteActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+        else {
+            Note updatedNote = new Note(title, description);
+            Call<ApiResponse> call = apiService.updateNote((int) id, updatedNote, token);
+            call.enqueue(new Callback<ApiResponse>() {
+                @Override
+                public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                    if (response.isSuccessful()) {
+                        Toast.makeText(AddNoteActivity.this, "Nota actualizada exitosamente", Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else {
+                        try {
+                            String errorMessage = response.errorBody().string();  // Obtener el mensaje de error
+                            Log.e("API Error", "Error al actualizar la nota: " + errorMessage);
+
+                            // Intenta imprimir el cuerpo de la respuesta, aunque sea un error
+                            Log.d("API Response", "Error response: " + response.body());
+
+                            Toast.makeText(AddNoteActivity.this, "Error al guardar la nota: " + errorMessage, Toast.LENGTH_SHORT).show();
+                        } catch (Exception e) {
+                            Log.e("API Error", "Error al obtener el mensaje de error: " + e.getMessage());
+                            Toast.makeText(AddNoteActivity.this, "Error desconocido", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ApiResponse> call, Throwable t) {
+                    Log.e("API Error", "Error de conexión: " + t.getMessage());
+                    Toast.makeText(AddNoteActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+    private void deleteNote(long noteId) {
+        if (noteId == -1) {
+            Toast.makeText(this, "Nota no válida para eliminar", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String token = "JWT " + tokenManager.getToken();
+        Log.d("token", token);
 
         NotesApi apiService = RetrofitInstance.getRetrofitInstance().create(NotesApi.class);
-        Note newNote = new Note(title, description);
 
-        Call<ApiResponse> call = apiService.createNote(newNote, token);
+        Call<ApiResponse> call = apiService.deleteNote((int) noteId, token);  // Asume que tienes un método DELETE en tu interfaz NotesApi
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                 if (response.isSuccessful()) {
-                    Log.d("API", "Nota guardada exitosamente");
-                    Toast.makeText(AddNoteActivity.this, "Nota guardada exitosamente", Toast.LENGTH_SHORT).show();
-
+                    Log.d("API", "Nota eliminada exitosamente");
+                    Toast.makeText(AddNoteActivity.this, "Nota eliminada correctamente", Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
                     try {
-                        String errorMessage = response.errorBody().string();  // Obtener el mensaje de error
-                        Log.e("API Error", "Error al guardar la nota: " + errorMessage);
-
-                        // Intenta imprimir el cuerpo de la respuesta, aunque sea un error
-                        Log.d("API Response", "Error response: " + response.body());
-
-                        Toast.makeText(AddNoteActivity.this, "Error al guardar la nota: " + errorMessage, Toast.LENGTH_SHORT).show();
+                        String errorMessage = response.errorBody().string();
+                        Log.e("API Error", "Error al eliminar la nota: " + errorMessage);
+                        Toast.makeText(AddNoteActivity.this, "Error al eliminar la nota: " + errorMessage, Toast.LENGTH_SHORT).show();
                     } catch (Exception e) {
                         Log.e("API Error", "Error al obtener el mensaje de error: " + e.getMessage());
                         Toast.makeText(AddNoteActivity.this, "Error desconocido", Toast.LENGTH_SHORT).show();
@@ -203,7 +282,9 @@ public class AddNoteActivity extends AppCompatActivity {
 //        return super.onOptionsItemSelected(item);
 //    }
 
-//    private int getSelectedColor() {
-//        return Color.RED;
-//    }
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
 }

@@ -41,8 +41,6 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
         Note note = notes.get(position);
 
-        Log.d("Notas", "Note: " + note.getTitle() + " - " + note.getDescription());
-
         holder.title.setText(note.getTitle());
         holder.description.setText(note.getDescription());
 //        holder.cardView.setCardBackgroundColor(note.getColor());
@@ -50,7 +48,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), AddNoteActivity.class);
-//            intent.putExtra("note_id", note.getId());
+            intent.putExtra("note_id", note.getId());
             intent.putExtra("note_title", note.getTitle());
             intent.putExtra("note_description", note.getDescription());
             v.getContext().startActivity(intent);

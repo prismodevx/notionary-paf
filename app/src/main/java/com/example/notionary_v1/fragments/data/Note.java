@@ -1,11 +1,18 @@
 package com.example.notionary_v1.fragments.data;
 
 public class Note {
+    private int id;
     private String title;
     private String description;
 //    private int color;
 
     public Note(String title, String description) {
+        this.title = title;
+        this.description = description;
+    }
+
+    public Note(int id, String title, String description) {
+        this.id = id;
         this.title = title;
         this.description = description;
     }
@@ -25,13 +32,13 @@ public class Note {
 //        this.color = color;
 //    }
 
-//    public long getId() {
-//        return id;
-//    }
-//
-//    public void setId(long id) {
-//        this.id = id;
-//    }
+    public long getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;

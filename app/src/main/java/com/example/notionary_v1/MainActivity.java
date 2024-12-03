@@ -6,11 +6,15 @@ import android.util.Log;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
+
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
@@ -35,6 +39,12 @@ public class MainActivity extends AppCompatActivity {
             return; // Evita que se cargue el resto de la actividad
         }
 
+        ImageButton btnSettings = findViewById(R.id.btn_settings);
+        btnSettings.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(intent);
+        });
+
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_main);
 
@@ -45,10 +55,6 @@ public class MainActivity extends AppCompatActivity {
             }
             if(item.getItemId() == R.id.RemindersFragment) {
                 navController.navigate(R.id.RemindersFragment, null);
-                return true;
-            }
-            if(item.getItemId() == R.id.OptionsFragment) {
-                navController.navigate(R.id.OptionsFragment, null);
                 return true;
             }
             return true;
