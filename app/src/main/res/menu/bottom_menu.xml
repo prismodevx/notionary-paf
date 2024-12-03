@@ -8,8 +8,4 @@
         android:id="@+id/RemindersFragment"
         android:icon="@drawable/ic_reminders"
         android:title="Recordatorios"/>
-    <item
-        android:id="@+id/OptionsFragment"
-        android:icon="@drawable/ic_options"
-        android:title="Opciones"/>
 </menu>

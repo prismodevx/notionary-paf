@@ -45,11 +45,12 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
 
         holder.title.setText(note.getTitle());
         holder.description.setText(note.getDescription());
-        holder.cardView.setCardBackgroundColor(note.getColor());
+//        holder.cardView.setCardBackgroundColor(note.getColor());
+        holder.cardView.setCardBackgroundColor(Color.parseColor("#AEC6CF"));
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), AddNoteActivity.class);
-            intent.putExtra("note_id", note.getId());
+//            intent.putExtra("note_id", note.getId());
             intent.putExtra("note_title", note.getTitle());
             intent.putExtra("note_description", note.getDescription());
             v.getContext().startActivity(intent);
@@ -58,7 +59,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
 
     @Override
     public int getItemCount() {
-        return notes != null ? notes.size() : 0;  // Previene el NPE si las notas son null
+        return notes != null ? notes.size() : 0;
     }
 
     static class NoteViewHolder extends RecyclerView.ViewHolder {

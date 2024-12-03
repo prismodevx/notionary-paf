@@ -16,6 +16,7 @@ import com.example.notionary_v1.AddNoteActivity;
 import com.example.notionary_v1.MainActivity;
 import com.example.notionary_v1.databinding.FragmentNotesBinding;
 import com.example.notionary_v1.fragments.adapter.NotesAdapter;
+import com.example.notionary_v1.fragments.components.LoadingFragment;
 import com.example.notionary_v1.fragments.data.ApiClient;
 import com.example.notionary_v1.fragments.data.ApiResponse;
 import com.example.notionary_v1.fragments.data.Note;
@@ -66,6 +67,8 @@ public class NotesFragment extends Fragment {
     }
 
     private void obtenerNotas() {
+        LoadingFragment loadingDialog = new LoadingFragment();
+        loadingDialog.show(getParentFragmentManager(), "loading");
         TokenManager tokenManager = new TokenManager(requireContext());
         String token = "JWT " + tokenManager.getToken();
 
@@ -82,11 +85,12 @@ public class NotesFragment extends Fragment {
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                loadingDialog.dismiss();
                 if (response.isSuccessful() && response.body() != null) {
                     List<Note> notas = response.body().getData();
                     if (notas != null) {
-                        Log.d("Notas", "Número de notas: " + notas.size());  // Imprime el tamaño de las notas
-                        adapter.updateNotes(notas);  // Actualizar el adaptador con las nuevas notas
+                        Log.d("Notas", "Número de notas: " + notas.size());
+                        adapter.updateNotes(notas);
                     } else {
                         Log.e("API Error", "La lista de notas está vacía.");
                     }
@@ -100,16 +104,14 @@ public class NotesFragment extends Fragment {
             public void onFailure(Call<ApiResponse> call, Throwable t) {
                 Log.e("API Error", "Fallo en la solicitud: " + t.getMessage());
                 Toast.makeText(getContext(), "Fallo en la conexión", Toast.LENGTH_SHORT).show();
+                loadingDialog.dismiss();
             }
         });
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        // Si se necesitan actualizar las notas en cada reanudación del fragmento
-//        if (notas != null) {
-//            adapter.notifyDataSetChanged();
-//        }
-//    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        obtenerNotas();
+    }
 }

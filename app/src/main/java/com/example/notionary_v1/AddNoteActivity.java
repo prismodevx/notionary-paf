@@ -54,35 +54,41 @@ public class AddNoteActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        deleteBtn = findViewById(R.id.action_delete);
-        deleteBtn.setVisibility(View.INVISIBLE);
+//        deleteBtn = findViewById(R.id.action_delete);
+//        deleteBtn.setVisibility(View.INVISIBLE);
 
         edtTitle = findViewById(R.id.edt_title);
         edtBody = findViewById(R.id.edt_body);
         tokenManager = new TokenManager(this);
 
-        Intent intent = getIntent();
-        noteId = intent.getLongExtra("note_id", -1);
-        String title = intent.getStringExtra("note_title");
-        String description = intent.getStringExtra("note_description");
+        Log.d("API Error", edtTitle.getText().toString());
+        Log.d("API Error", edtBody.getText().toString());
 
-        if (noteId != -1) {
-            edtTitle.setText(title);
-            edtBody.setText(description);
-            deleteBtn.setVisibility(View.VISIBLE);
-            setTitle("Editar Nota");
-        }
+//        Intent intent = getIntent();
+//        noteId = intent.getLongExtra("note_id", -1);
+//        String title = intent.getStringExtra("note_title");
+//        String description = intent.getStringExtra("note_description");
+
+//        if (noteId != -1) {
+//            edtTitle.setText(title);
+//            edtBody.setText(description);
+//            deleteBtn.setVisibility(View.VISIBLE);
+//            setTitle("Editar Nota");
+//        }
 
         Button btnSave = findViewById(R.id.btn_save);
         btnSave.setOnClickListener(v -> {
-            String t = edtTitle.getText().toString();
-            String d = edtBody.getText().toString();
-
-            if (!t.isEmpty() && !d.isEmpty()) {
-                saveNote(title, description);
-            } else {
-                Toast.makeText(this, "Por favor ingresa todos los campos", Toast.LENGTH_SHORT).show();
-            }
+            Log.d("API Error", String.valueOf(edtTitle.getText()));
+            Log.d("API Error", String.valueOf(edtBody.getText()));
+            String t = String.valueOf(edtTitle.getText());
+            String d = String.valueOf(edtBody.getText());
+            saveNote(String.valueOf(edtTitle.getText()), String.valueOf(edtBody.getText()));
+//
+//            if (!t.isEmpty() && !d.isEmpty()) {
+//                saveNote(t, d);
+//            } else {
+//                Toast.makeText(this, "Por favor ingresa todos los campos", Toast.LENGTH_SHORT).show();
+//            }
         });
 
         Button btnPastel1 = findViewById(R.id.btn_pastel_1);
@@ -139,6 +145,7 @@ public class AddNoteActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     Log.d("API", "Nota guardada exitosamente");
                     Toast.makeText(AddNoteActivity.this, "Nota guardada exitosamente", Toast.LENGTH_SHORT).show();
+
                     finish();
                 } else {
                     try {
