@@ -15,18 +15,17 @@ public class ErrorFragment extends DialogFragment {
     private String errorMessage;
 
     public ErrorFragment(String errorMessage) {
-        this.errorMessage = errorMessage; // Pasar el mensaje de error
+        this.errorMessage = errorMessage;
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         Dialog dialog = new Dialog(requireActivity());
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // Sin título
-        dialog.setContentView(R.layout.dialog_error); // Diseño personalizado
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_error);
         dialog.setCancelable(false);
 
-        // Configurar el mensaje y botón
         TextView tvErrorMessage = dialog.findViewById(R.id.tvErrorMessage);
         tvErrorMessage.setText(errorMessage);
 

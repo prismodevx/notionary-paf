@@ -79,10 +79,10 @@ public class AddNoteActivity extends AppCompatActivity {
         deleteBtn.setOnClickListener(v -> {
             CustomDialog dialog = new CustomDialog(this)
                     .setTitle("Eliminar nota")
-                    .setIcon(R.drawable.ic_error) // Asegúrate de tener un ícono de advertencia
-                    .setCancelButton("Cancelar", null) // No hace nada al cancelar
+                    .setIcon(R.drawable.ic_error)
+                    .setCancelButton("Cancelar", null)
                     .setOkButton("Eliminar", view -> {
-                        deleteNote(id); // Llama a tu método para eliminar la nota
+                        deleteNote(id);
                     });
             dialog.show();
         });
@@ -156,7 +156,7 @@ public class AddNoteActivity extends AppCompatActivity {
                         finish();
                     } else {
                         try {
-                            String errorMessage = response.errorBody().string();  // Obtener el mensaje de error
+                            String errorMessage = response.errorBody().string();
                             Log.e("API Error", "Error al guardar la nota: " + errorMessage);
 
                             // Intenta imprimir el cuerpo de la respuesta, aunque sea un error
@@ -188,10 +188,9 @@ public class AddNoteActivity extends AppCompatActivity {
                         finish();
                     } else {
                         try {
-                            String errorMessage = response.errorBody().string();  // Obtener el mensaje de error
+                            String errorMessage = response.errorBody().string();
                             Log.e("API Error", "Error al actualizar la nota: " + errorMessage);
 
-                            // Intenta imprimir el cuerpo de la respuesta, aunque sea un error
                             Log.d("API Response", "Error response: " + response.body());
 
                             Toast.makeText(AddNoteActivity.this, "Error al guardar la nota: " + errorMessage, Toast.LENGTH_SHORT).show();
@@ -222,7 +221,7 @@ public class AddNoteActivity extends AppCompatActivity {
 
         NotesApi apiService = RetrofitInstance.getRetrofitInstance().create(NotesApi.class);
 
-        Call<ApiResponse> call = apiService.deleteNote((int) noteId, token);  // Asume que tienes un método DELETE en tu interfaz NotesApi
+        Call<ApiResponse> call = apiService.deleteNote((int) noteId, token);
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {

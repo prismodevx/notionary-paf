@@ -20,7 +20,7 @@ public class ApiClient {
                 .addInterceptor(chain -> {
                     Request originalRequest = chain.request();
                     Request newRequest = originalRequest.newBuilder()
-                            .header("Authorization", "JWT " + token)  // Agregar el token al encabezado
+                            .header("Authorization", "JWT " + token)
                             .build();
                     return chain.proceed(newRequest);
                 })

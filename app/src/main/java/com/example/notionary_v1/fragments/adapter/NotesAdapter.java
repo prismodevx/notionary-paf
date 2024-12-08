@@ -27,7 +27,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
 
     public void updateNotes(List<Note> newNotes) {
         this.notes = newNotes;
-        notifyDataSetChanged();  // Notifica que los datos han cambiado para actualizar la vista
+        notifyDataSetChanged();
     }
 
     @NonNull

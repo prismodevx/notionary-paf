@@ -32,11 +32,10 @@ public class MainActivity extends AppCompatActivity {
 
         TokenManager tokenManager = new TokenManager(this);
         if (tokenManager.getToken() == null) {
-            // Si no hay token, redirigir al LoginFragment
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);  // Asegúrate de que LoginActivity esté configurada correctamente
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
-            finish(); // Cierra MainActivity para evitar que el usuario regrese a esta pantalla sin estar autenticado
-            return; // Evita que se cargue el resto de la actividad
+            finish();
+            return;
         }
 
         ImageButton btnSettings = findViewById(R.id.btn_settings);
@@ -69,12 +68,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // Método para ocultar el BottomNavigationView
     public void hideBottomNav() {
         bottomNavigationView.setVisibility(View.GONE);
     }
 
-    // Método para mostrar el BottomNavigationView
     public void showBottomNav() {
         bottomNavigationView.setVisibility(View.VISIBLE);
     }

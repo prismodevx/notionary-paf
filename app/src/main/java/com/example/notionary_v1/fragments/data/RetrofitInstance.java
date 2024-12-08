@@ -8,12 +8,11 @@ public class RetrofitInstance {
 
     private static Retrofit retrofit;
 
-    // Método para obtener la instancia de Retrofit
     public static Retrofit getRetrofitInstance() {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)  // Configura la URL base
-                    .addConverterFactory(GsonConverterFactory.create())  // Conversor de JSON a objetos Java
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
         return retrofit;

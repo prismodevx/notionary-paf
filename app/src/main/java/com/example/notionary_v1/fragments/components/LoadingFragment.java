@@ -23,7 +23,7 @@ public class LoadingFragment extends DialogFragment {
         Dialog dialog = new Dialog(requireActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_loading);
-        dialog.setCancelable(false); // Para que no se pueda cancelar el diálogo tocando afuera
+        dialog.setCancelable(false);
 
         if (dialog.getWindow() != null) {
             dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
