@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -30,6 +31,10 @@ import com.example.notionary_v1.fragments.data.RetrofitInstance;
 import com.example.notionary_v1.fragments.data.TokenManager;
 import com.example.notionary_v1.interf.NotesApi;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -41,6 +46,7 @@ public class AddNoteActivity extends AppCompatActivity {
     private long id = -1;
     private Toolbar toolbar;
     private ImageButton deleteBtn;
+    private Button selectedButton = null;
 
     private TokenManager tokenManager;
 
@@ -55,6 +61,8 @@ public class AddNoteActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        TextView txtFecha = findViewById(R.id.txt_fecha);
+
         deleteBtn = findViewById(R.id.action_delete);
 //        deleteBtn.setVisibility(View.INVISIBLE);
 
@@ -68,6 +76,9 @@ public class AddNoteActivity extends AppCompatActivity {
         id = intent.getLongExtra("note_id", -1);
         String title = intent.getStringExtra("note_title");
         String description = intent.getStringExtra("note_description");
+
+        String fechaActual = obtenerFechaActual();
+        txtFecha.setText(fechaActual);
 
         if (id != -1) {
             edtTitle.setText(title);
@@ -98,26 +109,29 @@ public class AddNoteActivity extends AppCompatActivity {
 //            }
         });
 
-        Button btnPastel1 = findViewById(R.id.btn_pastel_1);
-        Button btnPastel2 = findViewById(R.id.btn_pastel_2);
-        Button btnPastel3 = findViewById(R.id.btn_pastel_3);
-
-
-        btnPastel1.setOnClickListener(v -> {
-//            changeToolbarColor(R.color.color_pastel_1);
-            selectedColor = ContextCompat.getColor(this, R.color.color_pastel_1);
-            Log.d("c", String.valueOf(selectedColor));
-        });
-        btnPastel2.setOnClickListener(v -> {
-//            changeToolbarColor(R.color.color_pastel_2);
-            selectedColor = ContextCompat.getColor(this, R.color.color_pastel_2);
-            Log.d("selected", String.valueOf(selectedColor));
-        });
-        btnPastel3.setOnClickListener(v -> {
-//            changeToolbarColor(R.color.color_pastel_3);
-            selectedColor = ContextCompat.getColor(this, R.color.color_pastel_3);
-            Log.d("selected", String.valueOf(selectedColor));
-        });
+//        Button btnPastel1 = findViewById(R.id.btn_pastel_1);
+//        Button btnPastel2 = findViewById(R.id.btn_pastel_2);
+//        Button btnPastel3 = findViewById(R.id.btn_pastel_3);
+//
+//
+//        btnPastel1.setOnClickListener(v -> {
+////            changeToolbarColor(R.color.color_pastel_1);
+//            selectedColor = ContextCompat.getColor(this, R.color.color_pastel_1);
+////            updateSelectedButton(btnPastel1);
+//            Log.d("c", String.valueOf(selectedColor));
+//        });
+//        btnPastel2.setOnClickListener(v -> {
+////            changeToolbarColor(R.color.color_pastel_2);
+//            selectedColor = ContextCompat.getColor(this, R.color.color_pastel_2);
+////            updateSelectedButton(btnPastel2);
+//            Log.d("selected", String.valueOf(selectedColor));
+//        });
+//        btnPastel3.setOnClickListener(v -> {
+////            changeToolbarColor(R.color.color_pastel_3);
+//            selectedColor = ContextCompat.getColor(this, R.color.color_pastel_3);
+////            updateSelectedButton(btnPastel3);
+//            Log.d("selected", String.valueOf(selectedColor));
+//        });
 
 //        deleteBtn.setOnClickListener(v -> {
 //            new AlertDialog.Builder(this)
@@ -137,10 +151,31 @@ public class AddNoteActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.toolbar_add_menu, menu);
         return true;
     }
+    private String obtenerFechaActual() {
+//        SimpleDateFormat sdf = new SimpleDateFormat("d 'de' MMMM 'de' yyyy HH:mm", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        return sdf.format(new Date());
+    }
+
+
+//    private void updateSelectedButton(Button button) {
+//        if (selectedButton != null) {
+//            // Restablecer el fondo del botón previamente seleccionado
+//            selectedButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.default_button_color));
+//        }
+//
+//        // Cambiar el fondo del nuevo botón seleccionado
+//        button.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.selected_button_color));
+//
+//        // Actualizar el botón seleccionado
+//        selectedButton = button;
+//    }
 
     private void saveNote(String title, String description) {
         String token = "JWT " + tokenManager.getToken();
         NotesApi apiService = RetrofitInstance.getRetrofitInstance().create(NotesApi.class);
+
+        String currentDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
         Log.d("elid", String.valueOf(id));
         if (id == -1) {
             Note newNote = new Note(title, description);

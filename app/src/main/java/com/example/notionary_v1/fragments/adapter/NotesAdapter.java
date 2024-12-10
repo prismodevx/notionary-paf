@@ -17,6 +17,7 @@ import com.example.notionary_v1.R;
 import com.example.notionary_v1.fragments.data.Note;
 
 import java.util.List;
+import java.util.Random;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHolder> {
     private List<Note> notes;
@@ -44,7 +45,13 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
         holder.title.setText(note.getTitle());
         holder.description.setText(note.getDescription());
 //        holder.cardView.setCardBackgroundColor(note.getColor());
-        holder.cardView.setCardBackgroundColor(Color.parseColor("#AEC6CF"));
+
+        String[] colors = {"#ffffff", "#D4E8FF", "#FFD4F4", "#D4FFDC"};
+
+        Random random = new Random();
+        int randomIndex = random.nextInt(colors.length);
+
+        holder.cardView.setCardBackgroundColor(Color.parseColor(colors[randomIndex]));
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), AddNoteActivity.class);

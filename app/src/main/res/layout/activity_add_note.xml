@@ -49,17 +49,19 @@
         android:layout_marginEnd="15dp"
         android:paddingVertical="8dp"
         android:textSize="24sp"
-        android:textStyle="bold"
+        android:textStyle="normal"
         android:textColor="#0B1215"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
-    <View
-        android:id="@+id/separator"
+    <TextView
+        android:id="@+id/txt_fecha"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#F1F1F1"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
         android:layout_marginTop="10dp"
+        android:textColor="#B8B8B8"
+        android:textSize="12sp"
         app:layout_constraintTop_toBottomOf="@+id/edt_title"/>
     <EditText
         android:id="@+id/edt_body"
@@ -74,7 +76,7 @@
         android:paddingVertical="8dp"
         android:textColor="#0B1215"
         android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@+id/separator"/>
+        app:layout_constraintTop_toBottomOf="@+id/txt_fecha"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -86,34 +88,32 @@
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp">
 
-        <Button
-            android:id="@+id/btn_pastel_1"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:backgroundTint="@color/color_pastel_1"
-            android:text=""
-            android:shape="oval"
-            android:gravity="center" />
+<!--        <ImageButton-->
+<!--            android:id="@+id/btn_pastel_1"-->
+<!--            android:layout_width="40dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:layout_marginEnd="10dp"-->
+<!--            android:background="@drawable/rounded_button_1"-->
+<!--            android:src="@drawable/ic_circle"-->
+<!--            android:contentDescription="Color 1" />-->
 
-        <Button
-            android:id="@+id/btn_pastel_2"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:backgroundTint="@color/color_pastel_2"
-            android:text=""
-            android:shape="oval"
-            android:gravity="center" />
-        <Button
-            android:id="@+id/btn_pastel_3"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:backgroundTint="@color/color_pastel_3"
-            android:text=""
-            android:shape="oval"
-            android:gravity="center" />
+<!--        <ImageButton-->
+<!--            android:id="@+id/btn_pastel_2"-->
+<!--            android:layout_width="40dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:layout_marginEnd="10dp"-->
+<!--            android:background="@drawable/rounded_button_2"-->
+<!--            android:src="@drawable/ic_circle"-->
+<!--            android:contentDescription="Color 2" />-->
+
+<!--        <ImageButton-->
+<!--            android:id="@+id/btn_pastel_3"-->
+<!--            android:layout_width="40dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:layout_marginEnd="10dp"-->
+<!--            android:background="@drawable/rounded_button_3"-->
+<!--            android:src="@drawable/ic_circle"-->
+<!--            android:contentDescription="Color 3" />-->
     </LinearLayout>
 
     <Button
