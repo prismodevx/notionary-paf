@@ -1,5 +1,7 @@
 package com.example.notionary_v1.fragments.main;
 
+import static androidx.core.util.TypedValueCompat.dpToPx;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +17,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.notionary_v1.AddNoteActivity;
 import com.example.notionary_v1.MainActivity;
 import com.example.notionary_v1.databinding.FragmentNotesBinding;
+import com.example.notionary_v1.fragments.adapter.GridSpacingItemDecoration;
 import com.example.notionary_v1.fragments.adapter.NotesAdapter;
 import com.example.notionary_v1.fragments.components.LoadingFragment;
 import com.example.notionary_v1.fragments.data.ApiClient;
@@ -25,6 +28,7 @@ import com.example.notionary_v1.fragments.data.RetrofitInstance;
 import com.example.notionary_v1.fragments.data.TokenManager;
 import com.example.notionary_v1.interf.NotesApi;
 
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import java.util.ArrayList;
@@ -53,7 +57,16 @@ public class NotesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+//        binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+//        adapter = new NotesAdapter(notas);
+//        binding.recyclerView.setAdapter(adapter);
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(requireContext(), 2); // 2 columnas
+        binding.recyclerView.setLayoutManager(gridLayoutManager);
+
+        int spacing = dpToPx(14); // Espaciado de 10dp
+        binding.recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, spacing, true));
+
         adapter = new NotesAdapter(notas);
         binding.recyclerView.setAdapter(adapter);
 
@@ -64,6 +77,10 @@ public class NotesFragment extends Fragment {
         });
 
         obtenerNotas();
+    }
+
+    private int dpToPx(int dp) {
+        return Math.round(dp * requireContext().getResources().getDisplayMetrics().density);
     }
 
     private void obtenerNotas() {

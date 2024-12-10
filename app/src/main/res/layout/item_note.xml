@@ -4,9 +4,6 @@
     android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="15dp"
-    android:layout_marginStart="15dp"
-    android:layout_marginEnd="15dp"
     app:cardCornerRadius="12dp"
     app:cardElevation="0dp">
 
@@ -37,12 +34,12 @@
             android:maxLines="3" />
 
         <TextView
-            android:id="@+id/color"
+            android:id="@+id/note_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:textSize="16sp"
-            android:textColor="#415A77"
+            android:textSize="12sp"
+            android:textColor="#979797"
             android:ellipsize="end"
             android:maxLines="3" />
     </LinearLayout>

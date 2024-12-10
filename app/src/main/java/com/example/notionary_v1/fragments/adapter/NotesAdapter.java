@@ -44,6 +44,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
 
         holder.title.setText(note.getTitle());
         holder.description.setText(note.getDescription());
+        holder.date.setText(note.getDate());
 //        holder.cardView.setCardBackgroundColor(note.getColor());
 
         String[] colors = {"#ffffff", "#D4E8FF", "#FFD4F4", "#D4FFDC"};
@@ -58,6 +59,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
             intent.putExtra("note_id", note.getId());
             intent.putExtra("note_title", note.getTitle());
             intent.putExtra("note_description", note.getDescription());
+            intent.putExtra("note_date", note.getDescription());
             v.getContext().startActivity(intent);
         });
     }
@@ -68,14 +70,15 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
     }
 
     static class NoteViewHolder extends RecyclerView.ViewHolder {
-        TextView title, description, color;
+        TextView title, description, color, date;
         CardView cardView;
 
         NoteViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.note_title);
             description = itemView.findViewById(R.id.note_description);
-            color = itemView.findViewById(R.id.color);
+            date = itemView.findViewById(R.id.note_date);
+//            color = itemView.findViewById(R.id.color);
             cardView = itemView.findViewById(R.id.card_view);
         }
     }

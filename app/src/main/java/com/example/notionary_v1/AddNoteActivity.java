@@ -178,7 +178,7 @@ public class AddNoteActivity extends AppCompatActivity {
         String currentDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
         Log.d("elid", String.valueOf(id));
         if (id == -1) {
-            Note newNote = new Note(title, description);
+            Note newNote = new Note(title, description, currentDate);
             Call<ApiResponse> call = apiService.createNote(newNote, token);
 
             call.enqueue(new Callback<ApiResponse>() {
@@ -213,7 +213,7 @@ public class AddNoteActivity extends AppCompatActivity {
             });
         }
         else {
-            Note updatedNote = new Note(title, description);
+            Note updatedNote = new Note(title, description, currentDate);
             Call<ApiResponse> call = apiService.updateNote((int) id, updatedNote, token);
             call.enqueue(new Callback<ApiResponse>() {
                 @Override
