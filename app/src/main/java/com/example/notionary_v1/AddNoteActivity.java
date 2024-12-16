@@ -48,6 +48,8 @@ public class AddNoteActivity extends AppCompatActivity {
     private ImageButton deleteBtn;
     private Button selectedButton = null;
 
+    private ImageButton shareBtn;
+
     private TokenManager tokenManager;
 
     @Override
@@ -65,7 +67,7 @@ public class AddNoteActivity extends AppCompatActivity {
 
         deleteBtn = findViewById(R.id.action_delete);
 //        deleteBtn.setVisibility(View.INVISIBLE);
-
+        shareBtn = findViewById(R.id.action_share);
 
 
         edtTitle = findViewById(R.id.edt_title);
@@ -96,6 +98,11 @@ public class AddNoteActivity extends AppCompatActivity {
                         deleteNote(id);
                     });
             dialog.show();
+        });
+
+        shareBtn.setOnClickListener(v -> {
+            // Mostrar el diálogo para compartir la nota
+            openShareNoteDialog();
         });
 
         Button btnSave = findViewById(R.id.btn_save);
@@ -155,6 +162,30 @@ public class AddNoteActivity extends AppCompatActivity {
 //        SimpleDateFormat sdf = new SimpleDateFormat("d 'de' MMMM 'de' yyyy HH:mm", Locale.getDefault());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         return sdf.format(new Date());
+    }
+
+    private void openShareNoteDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_share_note, null);
+        builder.setView(dialogView);
+
+        AlertDialog dialog = builder.create();
+
+        // Inicializar vistas del diálogo
+        EditText etUsername = dialogView.findViewById(R.id.et_username);
+        Button btnSend = dialogView.findViewById(R.id.btn_send);
+
+        btnSend.setOnClickListener(v -> {
+            String username = etUsername.getText().toString().trim();
+            if (!username.isEmpty()) {
+//                shareNoteWithUser(username);
+                dialog.dismiss();
+            } else {
+                Toast.makeText(this, "Por favor, ingrese un usuario", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        dialog.show();
     }
 
 
