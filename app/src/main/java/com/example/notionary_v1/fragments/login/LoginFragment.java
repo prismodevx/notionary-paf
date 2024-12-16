@@ -23,6 +23,7 @@ import com.example.notionary_v1.interf.MyApi;
 import com.example.notionary_v1.model.AuthRequest;
 import com.example.notionary_v1.model.AuthResponse;
 import com.example.notionary_v1.model.LeerUsuarioResponse;
+import com.example.notionary_v1.utils.JwtDecoder;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
@@ -48,12 +49,27 @@ public class LoginFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         binding.btnLogin.setOnClickListener(v -> {
-            final String username = String.valueOf(binding.edtUsername.getText());
-            final String password = String.valueOf(binding.edtPassword.getText());
-            if (username.isEmpty() || password.isEmpty()) {
-                showErrorDialog("Por favor, complete ambos campos.");
-                return;
+            final String username = String.valueOf(binding.edtUsername.getText()).trim();
+            final String password = String.valueOf(binding.edtPassword.getText()).trim();
+
+            boolean isValid = true;
+
+            if (username.isEmpty()) {
+                binding.edtUsername.setError("El campo Usuario es obligatorio");
+                isValid = false;
+            } else {
+                binding.edtUsername.setError(null);
             }
+
+            if (password.isEmpty()) {
+                binding.edtPassword.setError("El campo Contraseña es obligatorio");
+                isValid = false;
+            } else {
+                binding.edtPassword.setError(null);
+            }
+
+            if (!isValid) return;
+
             getAuth(username, password);
         });
 
@@ -99,6 +115,8 @@ public class LoginFragment extends Fragment {
                     TokenManager tokenManager = new TokenManager(requireContext());
                     tokenManager.saveToken(token);
                     Log.d("token", token);
+
+                    tokenManager.saveId(JwtDecoder.getIdentityFromToken(token));
 
                     Toast.makeText(getActivity(), "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
 

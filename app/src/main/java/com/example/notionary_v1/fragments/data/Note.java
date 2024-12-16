@@ -5,19 +5,22 @@ public class Note {
     private String title;
     private String description;
     private String date;
+    private int idUsuario;
 //    private int color;
 
-    public Note(String title, String description, String date) {
+    public Note(String title, String description, String date, int idUsuario) {
         this.title = title;
         this.description = description;
         this.date = date;
+        this.idUsuario = idUsuario;
     }
 
-    public Note(int id, String title, String description, String date) {
+    public Note(int id, String title, String description, String date, int idUsuario) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.date = date;
+        this.idUsuario = idUsuario;
     }
 
 //    public Note(String title, String description, int color) {

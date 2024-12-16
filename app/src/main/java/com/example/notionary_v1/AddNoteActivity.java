@@ -64,7 +64,7 @@ public class AddNoteActivity extends AppCompatActivity {
         TextView txtFecha = findViewById(R.id.txt_fecha);
 
         deleteBtn = findViewById(R.id.action_delete);
-//        deleteBtn.setVisibility(View.INVISIBLE);
+        deleteBtn.setVisibility(View.INVISIBLE);
 
 
 
@@ -160,14 +160,11 @@ public class AddNoteActivity extends AppCompatActivity {
 
 //    private void updateSelectedButton(Button button) {
 //        if (selectedButton != null) {
-//            // Restablecer el fondo del botón previamente seleccionado
 //            selectedButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.default_button_color));
 //        }
 //
-//        // Cambiar el fondo del nuevo botón seleccionado
 //        button.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.selected_button_color));
 //
-//        // Actualizar el botón seleccionado
 //        selectedButton = button;
 //    }
 
@@ -178,7 +175,8 @@ public class AddNoteActivity extends AppCompatActivity {
         String currentDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
         Log.d("elid", String.valueOf(id));
         if (id == -1) {
-            Note newNote = new Note(title, description, currentDate);
+            Log.d("API", tokenManager.getId());
+            Note newNote = new Note(title, description, currentDate, Integer.parseInt(tokenManager.getId()));
             Call<ApiResponse> call = apiService.createNote(newNote, token);
 
             call.enqueue(new Callback<ApiResponse>() {
@@ -194,7 +192,6 @@ public class AddNoteActivity extends AppCompatActivity {
                             String errorMessage = response.errorBody().string();
                             Log.e("API Error", "Error al guardar la nota: " + errorMessage);
 
-                            // Intenta imprimir el cuerpo de la respuesta, aunque sea un error
                             Log.d("API Response", "Error response: " + response.body());
 
                             Toast.makeText(AddNoteActivity.this, "Error al guardar la nota: " + errorMessage, Toast.LENGTH_SHORT).show();
@@ -213,7 +210,7 @@ public class AddNoteActivity extends AppCompatActivity {
             });
         }
         else {
-            Note updatedNote = new Note(title, description, currentDate);
+            Note updatedNote = new Note(title, description, currentDate, Integer.parseInt(tokenManager.getId()));
             Call<ApiResponse> call = apiService.updateNote((int) id, updatedNote, token);
             call.enqueue(new Callback<ApiResponse>() {
                 @Override

@@ -45,7 +45,7 @@
         android:layout_width="match_parent"
         android:textColorHint="#7A77A9"
         android:textColor="#2B2A57"
-        android:hint="Nombre de usuario o email"
+        android:hint="Nombre de usuario"
         android:textSize="16sp"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_edt"
