@@ -64,7 +64,7 @@ public class NotesFragment extends Fragment {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(requireContext(), 2); // 2 columnas
         binding.recyclerView.setLayoutManager(gridLayoutManager);
 
-        int spacing = dpToPx(14); // Espaciado de 10dp
+        int spacing = dpToPx(14);
         binding.recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, spacing, true));
 
         adapter = new NotesAdapter(notas);
@@ -95,7 +95,7 @@ public class NotesFragment extends Fragment {
             return;
         }
 
-        int userId = 4;
+        int userId = Integer.parseInt(tokenManager.getId());
 
         NotesApi apiService = RetrofitInstance.getRetrofitInstance().create(NotesApi.class);
         Call<ApiResponse> call = apiService.getNotes(userId, token);

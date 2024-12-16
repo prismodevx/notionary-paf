@@ -14,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
@@ -66,6 +67,10 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        TokenManager tm = new TokenManager(MainActivity.this);
+
+        Toast.makeText(MainActivity.this, tm.getId(), Toast.LENGTH_SHORT).show();
     }
 
     public void hideBottomNav() {

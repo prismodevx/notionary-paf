@@ -19,21 +19,21 @@ public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
 
     @Override
     public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
-        int position = parent.getChildAdapterPosition(view); // posición del item
-        int column = position % spanCount; // columna del item
+        int position = parent.getChildAdapterPosition(view);
+        int column = position % spanCount;
 
         if (includeEdge) {
             outRect.left = spacing - column * spacing / spanCount;
             outRect.right = (column + 1) * spacing / spanCount;
-            if (position < spanCount) { // top edge
+            if (position < spanCount) {
                 outRect.top = spacing;
             }
-            outRect.bottom = spacing; // item bottom
+            outRect.bottom = spacing;
         } else {
             outRect.left = column * spacing / spanCount;
             outRect.right = spacing - (column + 1) * spacing / spanCount;
             if (position >= spanCount) {
-                outRect.top = spacing; // item top
+                outRect.top = spacing;
             }
         }
     }
