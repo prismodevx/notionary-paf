@@ -57,7 +57,7 @@ public class SettingsActivity extends AppCompatActivity {
         btnToLogout = findViewById(R.id.btn_to_logout);
         btnToProfile = findViewById(R.id.btn_to_profile);
         btnOpenChangePassword = findViewById(R.id.btn_open_change_password);
-        btnOpenChangePassword = findViewById(R.id.btn_open_about);
+        btnOpenAbout = findViewById(R.id.btn_open_about);
 
         btnToProfile.setOnClickListener(v -> {
             Intent intent = new Intent(SettingsActivity.this, ProfileActivity.class);
