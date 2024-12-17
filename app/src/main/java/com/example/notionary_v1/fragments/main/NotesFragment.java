@@ -90,8 +90,6 @@ public class NotesFragment extends Fragment {
         String token = "JWT " + tokenManager.getToken();
 
         if (token == null || token.isEmpty()) {
-            Log.e("API Error", "Token no disponible");
-            Toast.makeText(getContext(), "Token no disponible", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -106,7 +104,6 @@ public class NotesFragment extends Fragment {
                 if (response.isSuccessful() && response.body() != null) {
                     List<Note> notas = response.body().getData();
                     if (notas != null) {
-                        Log.d("Notas", "Número de notas: " + notas.size());
                         adapter.updateNotes(notas);
                     } else {
                         Log.e("API Error", "La lista de notas está vacía.");

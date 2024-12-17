@@ -63,14 +63,13 @@ public class MainActivity extends AppCompatActivity {
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                Log.d("Prismodevx", "se presiono el boton atras");
                 finish();
             }
         });
 
         TokenManager tm = new TokenManager(MainActivity.this);
 
-        Toast.makeText(MainActivity.this, tm.getId(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(MainActivity.this, tm.getId(), Toast.LENGTH_SHORT).show();
     }
 
     public void hideBottomNav() {

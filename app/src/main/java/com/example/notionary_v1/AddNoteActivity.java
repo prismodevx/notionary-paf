@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONObject;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -73,6 +74,7 @@ public class AddNoteActivity extends AppCompatActivity {
         shareBtn = findViewById(R.id.action_share);
 
         deleteBtn.setVisibility(View.INVISIBLE);
+        shareBtn.setVisibility(View.INVISIBLE);
 
         favBtn = findViewById(R.id.action_fav);
         updateFavoriteIcon();
@@ -95,6 +97,7 @@ public class AddNoteActivity extends AppCompatActivity {
             edtTitle.setText(title);
             edtBody.setText(description);
             deleteBtn.setVisibility(View.VISIBLE);
+            shareBtn.setVisibility(View.VISIBLE);
             setTitle("Editar Nota");
             updateFavoriteIcon();
         }
@@ -241,19 +244,17 @@ public class AddNoteActivity extends AppCompatActivity {
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                 if (response.isSuccessful()) {
                     Log.d("API", "Nota compartida exitosamente");
-                    Toast.makeText(AddNoteActivity.this, "Nota guardada exitosamente", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddNoteActivity.this, "Nota compartida exitosamente", Toast.LENGTH_SHORT).show();
 
                     finish();
                 } else {
                     try {
-                        String errorMessage = response.errorBody().string();
-//                        Toast.makeText(AddNoteActivity.this, username, Toast.LENGTH_SHORT).show();
-                        Toast.makeText(AddNoteActivity.this, String.valueOf(notaId), Toast.LENGTH_SHORT).show();
-                        Log.e("API Error", "Error al guardar la nota: " + errorMessage);
+                        String errorBody = response.errorBody().string();
 
-                        Log.d("API Response", "Error response: " + response.body());
+                        JSONObject errorJson = new JSONObject(errorBody);
+                        String message = errorJson.optString("message", "Error desconocido");
 
-                        Toast.makeText(AddNoteActivity.this, "Error al guardar la nota: " + errorMessage, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddNoteActivity.this, message, Toast.LENGTH_SHORT).show();
                     } catch (Exception e) {
                         Log.e("API Error", "Error al obtener el mensaje de error: " + e.getMessage());
                         Toast.makeText(AddNoteActivity.this, "Error desconocido", Toast.LENGTH_SHORT).show();

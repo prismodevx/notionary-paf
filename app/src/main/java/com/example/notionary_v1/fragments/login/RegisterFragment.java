@@ -59,15 +59,16 @@ public class RegisterFragment extends Fragment {
             final String fullName = String.valueOf(binding.edtFullname.getText()).trim();
             final String password = String.valueOf(binding.edtPassword.getText()).trim();
 
-            boolean isValid = true;
+            String userPattern = "^[a-zA-Z0-9_]{6,}$";
+            String fullNamePattern = "^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]{4,}$";
 
-            String validPattern = "^[a-zA-Z0-9_]+$";
+            boolean isValid = true;
 
             if (email.isEmpty()) {
                 binding.edtUsername.setError("El campo es obligatorio");
                 isValid = false;
-            } else if (!email.matches(validPattern)) {
-                binding.edtUsername.setError("El Usuario solo puede contener letras, números y _");
+            } else if (!email.matches(userPattern)) {
+                binding.edtUsername.setError("El usuario debe tener al menos 6 caracteres (letras, números, guiones bajos)");
                 isValid = false;
             } else {
                 binding.edtUsername.setError(null);
@@ -76,12 +77,18 @@ public class RegisterFragment extends Fragment {
             if (fullName.isEmpty()) {
                 binding.edtFullname.setError("El campo es obligatorio");
                 isValid = false;
+            } else if (!fullName.matches(fullNamePattern)) {
+                binding.edtFullname.setError("El nombre debe tener al menos 4 caracteres (solo letras, tildes y espacios)");
+                isValid = false;
             } else {
                 binding.edtFullname.setError(null);
             }
 
             if (password.isEmpty()) {
                 binding.edtPassword.setError("El campo es obligatorio");
+                isValid = false;
+            } else if (password.length() < 8) {
+                binding.edtPassword.setError("La contraseña debe tener al menos 8 caracteres");
                 isValid = false;
             } else {
                 binding.edtPassword.setError(null);

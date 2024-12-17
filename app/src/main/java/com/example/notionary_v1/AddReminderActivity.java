@@ -31,6 +31,8 @@ import com.example.notionary_v1.fragments.data.UsuarioReminder;
 import com.example.notionary_v1.interf.NotesApi;
 import com.example.notionary_v1.interf.RemindersApi;
 
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -71,6 +73,7 @@ public class AddReminderActivity extends AppCompatActivity {
         shareBtn = findViewById(R.id.action_share);
 
         deleteBtn.setVisibility(View.INVISIBLE);
+        shareBtn.setVisibility(View.INVISIBLE);
 
         favBtn = findViewById(R.id.action_fav);
         updateFavoriteIcon();
@@ -107,6 +110,7 @@ public class AddReminderActivity extends AppCompatActivity {
             }
 
             deleteBtn.setVisibility(View.VISIBLE);
+            shareBtn.setVisibility(View.VISIBLE);
             setTitle("Editar Recordatorio");
             updateFavoriteIcon();
         }
@@ -184,18 +188,15 @@ public class AddReminderActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     Log.d("API", "Recordatorio compartido exitosamente");
                     Toast.makeText(AddReminderActivity.this, "Recordatorio compartido exitosamente", Toast.LENGTH_SHORT).show();
-
                     finish();
                 } else {
                     try {
-                        String errorMessage = response.errorBody().string();
-//                        Toast.makeText(AddNoteActivity.this, username, Toast.LENGTH_SHORT).show();
-                        Toast.makeText(AddReminderActivity.this, String.valueOf(recordatorioId), Toast.LENGTH_SHORT).show();
-                        Log.e("API Error", "Error al guardar la nota: " + errorMessage);
+                        String errorBody = response.errorBody().string();
 
-                        Log.d("API Response", "Error response: " + response.body());
+                        JSONObject errorJson = new JSONObject(errorBody);
+                        String message = errorJson.optString("message", "Error desconocido");
 
-                        Toast.makeText(AddReminderActivity.this, "Error al guardar la nota: " + errorMessage, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddReminderActivity.this, message, Toast.LENGTH_SHORT).show();
                     } catch (Exception e) {
                         Log.e("API Error", "Error al obtener el mensaje de error: " + e.getMessage());
                         Toast.makeText(AddReminderActivity.this, "Error desconocido", Toast.LENGTH_SHORT).show();

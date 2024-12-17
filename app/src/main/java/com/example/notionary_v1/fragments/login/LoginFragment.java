@@ -103,7 +103,6 @@ public class LoginFragment extends Fragment {
             public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
                 loadingDialog.dismiss();
 
-                Log.d("req", response.toString());
                 if (!response.isSuccessful()) {
                     showErrorDialog("Credenciales inválidas. Por favor, intente de nuevo.");
                     binding.edtUsername.setText("");
@@ -114,18 +113,15 @@ public class LoginFragment extends Fragment {
                     String token = authResponse.getAccess_token();
                     TokenManager tokenManager = new TokenManager(requireContext());
                     tokenManager.saveToken(token);
-                    Log.d("token", token);
 
                     tokenManager.saveId(JwtDecoder.getIdentityFromToken(token));
 
-                    Toast.makeText(getActivity(), "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getActivity(), "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(requireContext(), MainActivity.class);
                     startActivity(intent);
                     requireActivity().finish();
-
                 }
-
             }
 
             @Override

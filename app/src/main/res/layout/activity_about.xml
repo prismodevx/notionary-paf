@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".AboutActivity">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="58dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:title=""
+        app:titleTextAppearance="@style/CustomToolbarTitle"
+        app:navigationIcon="@drawable/baseline_arrow_back_24"
+        app:menu="@menu/toolbar_add_menu">
+    </androidx.appcompat.widget.Toolbar>
+    <TextView
+        android:id="@+id/txt_about"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Acerca de"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:textSize="30sp"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
+    <TextView
+        android:id="@+id/txt_about_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="10dp"
+        android:textSize="16sp"
+        android:lineSpacingExtra="4dp"
+        android:textColor="@color/black"
+        android:text="Este proyecto es el producto final del curso Taller de Desarrollo de Aplicaciones Móviles a cargo del Ing. Junior Eugenio Cachay Maco, desarrollado por el Grupo 02. La aplicación combina diversas tecnologías modernas para ofrecer una experiencia completa y funcional:\n\n- Android Studio y Java para el desarrollo móvil.\n- Flask como backend para la gestión de datos.\n- JWT (JSON Web Tokens) para la autenticación segura.\n\nIntegrantes del Grupo 02:\n- Cubas Carranza Miguel Ángel\n- Luna Flores Percy Alexander\n- Mendoza Linares Alexis Ansony\n- Ruidiaz Olivera Diego Jefferson\n- Santamaría Chapoñan José Edwin\n\nEste proyecto refleja el esfuerzo, dedicación y aprendizaje de todo el equipo durante el curso."
+        app:layout_constraintTop_toBottomOf="@+id/txt_about" />
+
+    <TextView
+        android:id="@+id/txt_version"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="10dp"
+        android:textSize="16sp"
+        android:lineSpacingExtra="4dp"
+        android:textColor="@color/black"
+        android:text="Version 0.0.1"
+        android:layout_marginBottom="40dp"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
