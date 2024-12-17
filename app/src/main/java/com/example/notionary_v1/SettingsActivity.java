@@ -68,7 +68,7 @@ public class SettingsActivity extends AppCompatActivity {
             openChangePasswordDialog(Integer.parseInt(tokenManager.getId()));
         });
 
-        btnOpenChangePassword.setOnClickListener(v -> {
+        btnOpenAbout.setOnClickListener(v -> {
             Intent intent = new Intent(SettingsActivity.this, AboutActivity.class);
             startActivity(intent);
         });
