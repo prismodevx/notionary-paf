@@ -285,10 +285,14 @@ public class AddReminderActivity extends AppCompatActivity {
     private void saveReminder(String titulo, String fechaHora) {
         String token = "JWT " + tokenManager.getToken();
         RemindersApi apiService = RetrofitInstance.getRetrofitInstance().create(RemindersApi.class);
-
-
+        Calendar currentTime = Calendar.getInstance();
+        if (calendar.before(currentTime)) {
+            Toast.makeText(this, "La fecha y hora deben ser posteriores a la actual", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         if (id == -1) {
+
             Reminder newReminder = new Reminder(titulo, fechaHora, Integer.parseInt(tokenManager.getId()), esFavorito ? 1 : 0);
             Call<ApiResponse> call = apiService.createReminder(newReminder, token);
             call.enqueue(new Callback<ApiResponse>() {
