@@ -6,13 +6,15 @@ public class Note {
     private String description;
     private String date;
     private int idUsuario;
+    private int esFavorito;
 //    private int color;
 
-    public Note(String title, String description, String date, int idUsuario) {
+    public Note(String title, String description, String date, int idUsuario, int esFavorito) {
         this.title = title;
         this.description = description;
         this.date = date;
         this.idUsuario = idUsuario;
+        this.esFavorito = esFavorito;
     }
 
     public Note(int id, String title, String description, String date, int idUsuario) {
@@ -21,6 +23,7 @@ public class Note {
         this.description = description;
         this.date = date;
         this.idUsuario = idUsuario;
+        this.esFavorito = esFavorito;
     }
 
 //    public Note(String title, String description, int color) {
@@ -66,8 +69,15 @@ public class Note {
         return date;
     }
 
+    public int getEsFavorito() {
+        return esFavorito;
+    }
 
-//    public int getColor() {
+    public void setEsFavorito(int esFavorito) {
+        this.esFavorito = esFavorito;
+    }
+
+    //    public int getColor() {
 //        return color;
 //    }
 

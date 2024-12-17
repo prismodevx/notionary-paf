@@ -2,6 +2,8 @@ package com.example.notionary_v1.interf;
 
 import com.example.notionary_v1.fragments.data.ApiResponse;
 import com.example.notionary_v1.fragments.data.Note;
+import com.example.notionary_v1.fragments.data.NoteLike;
+import com.example.notionary_v1.fragments.data.UsuarioNote;
 
 import java.util.List;
 
@@ -27,4 +29,10 @@ public interface NotesApi {
 
     @PUT("notas/{id}")
     Call<ApiResponse> updateNote(@Path("id") int id, @Body Note note, @Header("Authorization") String token);
+
+    @POST("notas-share")
+    Call<ApiResponse> shareNote(@Body UsuarioNote usuarioNote, @Header("Authorization") String token);
+
+    @POST("notas-like")
+    Call<ApiResponse> likeNote(@Body NoteLike noteLike, @Header("Authorization") String token);
 }

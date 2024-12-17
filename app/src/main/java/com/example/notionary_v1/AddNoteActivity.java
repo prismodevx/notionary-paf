@@ -29,6 +29,7 @@ import com.example.notionary_v1.fragments.data.Note;
 import com.example.notionary_v1.fragments.data.NoteManager;
 import com.example.notionary_v1.fragments.data.RetrofitInstance;
 import com.example.notionary_v1.fragments.data.TokenManager;
+import com.example.notionary_v1.fragments.data.UsuarioNote;
 import com.example.notionary_v1.interf.NotesApi;
 
 import java.text.SimpleDateFormat;
@@ -52,6 +53,9 @@ public class AddNoteActivity extends AppCompatActivity {
 
     private TokenManager tokenManager;
 
+    private boolean esFavorito = false;
+    private ImageButton favBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +74,9 @@ public class AddNoteActivity extends AppCompatActivity {
 
         deleteBtn.setVisibility(View.INVISIBLE);
 
+        favBtn = findViewById(R.id.action_fav);
+        updateFavoriteIcon();
+
 
         edtTitle = findViewById(R.id.edt_title);
         edtBody = findViewById(R.id.edt_body);
@@ -79,6 +86,7 @@ public class AddNoteActivity extends AppCompatActivity {
         id = intent.getLongExtra("note_id", -1);
         String title = intent.getStringExtra("note_title");
         String description = intent.getStringExtra("note_description");
+        esFavorito = intent.getIntExtra("note_like", 0) == 1;
 
         String fechaActual = obtenerFechaActual();
         txtFecha.setText(fechaActual);
@@ -88,6 +96,7 @@ public class AddNoteActivity extends AppCompatActivity {
             edtBody.setText(description);
             deleteBtn.setVisibility(View.VISIBLE);
             setTitle("Editar Nota");
+            updateFavoriteIcon();
         }
 
         deleteBtn.setOnClickListener(v -> {
@@ -103,7 +112,13 @@ public class AddNoteActivity extends AppCompatActivity {
 
         shareBtn.setOnClickListener(v -> {
             // Mostrar el diálogo para compartir la nota
-            openShareNoteDialog();
+            openShareNoteDialog((int) id);
+        });
+
+        favBtn.setOnClickListener(v -> {
+            esFavorito = !esFavorito; // Alternar el estado
+            updateFavoriteIcon();
+//            likeNote((int) id);
         });
 
         Button btnSave = findViewById(R.id.btn_save);
@@ -116,6 +131,8 @@ public class AddNoteActivity extends AppCompatActivity {
 //                Toast.makeText(this, "Por favor ingresa todos los campos", Toast.LENGTH_SHORT).show();
 //            }
         });
+
+
 
 //        Button btnPastel1 = findViewById(R.id.btn_pastel_1);
 //        Button btnPastel2 = findViewById(R.id.btn_pastel_2);
@@ -154,6 +171,14 @@ public class AddNoteActivity extends AppCompatActivity {
 //        });
     }
 
+    private void updateFavoriteIcon() {
+        if (esFavorito) {
+            favBtn.setImageResource(R.drawable.ic_fav_filled); // Ícono lleno
+        } else {
+            favBtn.setImageResource(R.drawable.ic_fav); // Ícono vacío
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_add_menu, menu);
@@ -165,7 +190,7 @@ public class AddNoteActivity extends AppCompatActivity {
         return sdf.format(new Date());
     }
 
-    private void openShareNoteDialog() {
+    private void openShareNoteDialog(int notaId) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_share_note, null);
         builder.setView(dialogView);
@@ -179,14 +204,69 @@ public class AddNoteActivity extends AppCompatActivity {
         btnSend.setOnClickListener(v -> {
             String username = etUsername.getText().toString().trim();
             if (!username.isEmpty()) {
-//                shareNoteWithUser(username);
+                shareNoteWithUser(username, notaId);
                 dialog.dismiss();
             } else {
-                Toast.makeText(this, "Por favor, ingrese un usuario", Toast.LENGTH_SHORT).show();
+                boolean isValid = true;
+
+                String validPattern = "^[a-zA-Z0-9_]+$";
+                if (!username.matches(validPattern)) {
+                    etUsername.setError("El Usuario solo puede contener letras, números y _");
+                    isValid = false;
+                } else {
+                    etUsername.setError(null);
+                }
+                if (!isValid) return;
             }
         });
 
         dialog.show();
+    }
+
+    private void likeNote(int noteId) {
+
+    }
+
+    private void shareNoteWithUser(String username, int notaId) {
+        String token = "JWT " + tokenManager.getToken();
+        NotesApi apiService = RetrofitInstance.getRetrofitInstance().create(NotesApi.class);
+
+        Log.d("API", tokenManager.getId());
+        Log.d("API", tokenManager.getId());
+        UsuarioNote usuarioNote = new UsuarioNote(username, notaId);
+        Call<ApiResponse> call = apiService.shareNote(usuarioNote, token);
+
+        call.enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if (response.isSuccessful()) {
+                    Log.d("API", "Nota compartida exitosamente");
+                    Toast.makeText(AddNoteActivity.this, "Nota guardada exitosamente", Toast.LENGTH_SHORT).show();
+
+                    finish();
+                } else {
+                    try {
+                        String errorMessage = response.errorBody().string();
+//                        Toast.makeText(AddNoteActivity.this, username, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddNoteActivity.this, String.valueOf(notaId), Toast.LENGTH_SHORT).show();
+                        Log.e("API Error", "Error al guardar la nota: " + errorMessage);
+
+                        Log.d("API Response", "Error response: " + response.body());
+
+                        Toast.makeText(AddNoteActivity.this, "Error al guardar la nota: " + errorMessage, Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        Log.e("API Error", "Error al obtener el mensaje de error: " + e.getMessage());
+                        Toast.makeText(AddNoteActivity.this, "Error desconocido", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                Log.e("API Error", "Error de conexión: " + t.getMessage());
+                Toast.makeText(AddNoteActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 
@@ -208,7 +288,7 @@ public class AddNoteActivity extends AppCompatActivity {
         Log.d("elid", String.valueOf(id));
         if (id == -1) {
             Log.d("API", tokenManager.getId());
-            Note newNote = new Note(title, description, currentDate, Integer.parseInt(tokenManager.getId()));
+            Note newNote = new Note(title, description, currentDate, Integer.parseInt(tokenManager.getId()), esFavorito ? 1 : 0);
             Call<ApiResponse> call = apiService.createNote(newNote, token);
 
             call.enqueue(new Callback<ApiResponse>() {
@@ -242,7 +322,7 @@ public class AddNoteActivity extends AppCompatActivity {
             });
         }
         else {
-            Note updatedNote = new Note(title, description, currentDate, Integer.parseInt(tokenManager.getId()));
+            Note updatedNote = new Note(title, description, currentDate, Integer.parseInt(tokenManager.getId()), esFavorito ? 1 : 0);
             Call<ApiResponse> call = apiService.updateNote((int) id, updatedNote, token);
             call.enqueue(new Callback<ApiResponse>() {
                 @Override

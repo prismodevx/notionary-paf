@@ -76,9 +76,6 @@ public class RegisterFragment extends Fragment {
             if (fullName.isEmpty()) {
                 binding.edtFullname.setError("El campo es obligatorio");
                 isValid = false;
-            } else if (!fullName.matches(validPattern)) {
-                binding.edtFullname.setError("El Nombre completo solo puede contener letras");
-                isValid = false;
             } else {
                 binding.edtFullname.setError(null);
             }

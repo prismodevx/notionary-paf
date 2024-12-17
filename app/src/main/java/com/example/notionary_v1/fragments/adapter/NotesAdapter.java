@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -49,6 +50,12 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
 
         String[] colors = {"#ffffff", "#D4E8FF", "#FFD4F4", "#D4FFDC"};
 
+        if (note.getEsFavorito() == 1) {
+            holder.favIcon.setVisibility(View.VISIBLE);
+        } else {
+            holder.favIcon.setVisibility(View.GONE);
+        }
+
         Random random = new Random();
         int randomIndex = random.nextInt(colors.length);
 
@@ -60,6 +67,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
             intent.putExtra("note_title", note.getTitle());
             intent.putExtra("note_description", note.getDescription());
             intent.putExtra("note_date", note.getDescription());
+            intent.putExtra("note_like", note.getEsFavorito());
             v.getContext().startActivity(intent);
         });
     }
@@ -72,6 +80,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
     static class NoteViewHolder extends RecyclerView.ViewHolder {
         TextView title, description, color, date;
         CardView cardView;
+        ImageButton favIcon;
 
         NoteViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -80,6 +89,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
             date = itemView.findViewById(R.id.note_date);
 //            color = itemView.findViewById(R.id.color);
             cardView = itemView.findViewById(R.id.card_view);
+            favIcon = itemView.findViewById(R.id.note_fav);
         }
     }
 }
